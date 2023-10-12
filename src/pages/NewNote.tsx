@@ -1,5 +1,5 @@
-import { NoteData, Tag } from "../App";
-import { NoteForm } from "../components/NoteForm";
+import NoteForm from "../components/NoteForm";
+import { NoteData, Tag } from "../types";
 
 type NewNoteProps = {
   onSubmit: (data: NoteData) => void;
@@ -7,7 +7,7 @@ type NewNoteProps = {
   availableTags: Tag[];
 };
 
-export function NewNote({ onSubmit, onAddTag, availableTags }: NewNoteProps) {
+function NewNote({ onSubmit, onAddTag, availableTags }: NewNoteProps) {
   return (
     <>
       <h1 className="mb-4">New Note</h1>
@@ -19,3 +19,5 @@ export function NewNote({ onSubmit, onAddTag, availableTags }: NewNoteProps) {
     </>
   );
 }
+
+export default NewNote;

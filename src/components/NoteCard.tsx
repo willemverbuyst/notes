@@ -1,6 +1,6 @@
 import { Badge, Card, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { Tag } from "../App";
+import { Tag } from "../types";
 import styles from "./NoteCard.module.css";
 
 type NoteCardProps = {
@@ -9,7 +9,7 @@ type NoteCardProps = {
   tags: Tag[];
 };
 
-export function NoteCard({ id, title, tags }: NoteCardProps) {
+function NoteCard({ id, title, tags }: NoteCardProps) {
   return (
     <Card
       as={Link}
@@ -40,3 +40,5 @@ export function NoteCard({ id, title, tags }: NoteCardProps) {
     </Card>
   );
 }
+
+export default NoteCard;

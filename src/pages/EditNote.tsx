@@ -1,6 +1,6 @@
-import { NoteData, Tag } from "../App";
-import { NoteForm } from "../components/NoteForm";
-import { useNote } from "../hooks/useNote";
+import NoteForm from "../components/NoteForm";
+import useNote from "../hooks/useNote";
+import { NoteData, Tag } from "../types";
 
 type EditNoteProps = {
   onSubmit: (id: string, data: NoteData) => void;
@@ -8,7 +8,7 @@ type EditNoteProps = {
   availableTags: Tag[];
 };
 
-export function EditNote({ onSubmit, onAddTag, availableTags }: EditNoteProps) {
+function EditNote({ onSubmit, onAddTag, availableTags }: EditNoteProps) {
   const note = useNote();
   return (
     <>
@@ -24,3 +24,5 @@ export function EditNote({ onSubmit, onAddTag, availableTags }: EditNoteProps) {
     </>
   );
 }
+
+export default EditNote;

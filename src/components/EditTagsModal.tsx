@@ -1,5 +1,5 @@
 import { Button, Col, Form, Modal, Row, Stack } from "react-bootstrap";
-import { Tag } from "../App";
+import { Tag } from "../types";
 
 type EditTagsModalProps = {
   availableTags: Tag[];
@@ -9,7 +9,7 @@ type EditTagsModalProps = {
   onDeleteTag: (id: string) => void;
 };
 
-export function EditTagsModal({
+function EditTagsModal({
   availableTags,
   show,
   handleClose,
@@ -49,3 +49,5 @@ export function EditTagsModal({
     </Modal>
   );
 }
+
+export default EditTagsModal;

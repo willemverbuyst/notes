@@ -2,9 +2,9 @@ import { useMemo, useState } from "react";
 import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
-import { Note, Tag } from "../App";
-import { EditTagsModal } from "../components/EditTagsModal";
-import { NoteCard } from "../components/NoteCard";
+import EditTagsModal from "../components/EditTagsModal";
+import NoteCard from "../components/NoteCard";
+import { Note, Tag } from "../types";
 
 type NoteListProps = {
   availableTags: Tag[];
@@ -13,7 +13,7 @@ type NoteListProps = {
   onDeleteTag: (id: string) => void;
 };
 
-export function NoteList({
+function NoteList({
   availableTags,
   notes,
   onUpdateTag,
@@ -29,7 +29,7 @@ export function NoteList({
         (n.title.toLowerCase().includes(title.toLowerCase()) &&
           (selectedTags.length === 0 ||
             selectedTags.every((t) =>
-              n.tags.some((noteTag) => noteTag.id === t.id)
+              n.tags.some((noteTag) => noteTag.id === t.id),
             )))
       );
     });
@@ -81,7 +81,7 @@ export function NoteList({
                     tags.map((t) => ({
                       label: t.label,
                       id: t.value,
-                    }))
+                    })),
                   );
                 }}
                 options={availableTags.map((i) => ({
@@ -110,3 +110,5 @@ export function NoteList({
     </>
   );
 }
+
+export default NoteList;

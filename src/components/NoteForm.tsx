@@ -3,7 +3,7 @@ import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import CreatableReactSelect from "react-select/creatable";
 import { v4 as uuidV4 } from "uuid";
-import { NoteData, Tag } from "../App";
+import { NoteData, Tag } from "../types";
 
 type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
@@ -11,7 +11,7 @@ type NoteFormProps = {
   availableTags: Tag[];
 } & Partial<NoteData>;
 
-export function NoteForm({
+function NoteForm({
   onSubmit,
   onAddTag,
   availableTags,
@@ -37,7 +37,7 @@ export function NoteForm({
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={(e) => handleSubmit(e)}>
       <Stack gap={4}>
         <Row>
           <Col>
@@ -60,12 +60,12 @@ export function NoteForm({
                   label: i.label,
                   value: i.id,
                 }))}
-                onChange={(tags) => {
+                onChange={(tagsInSelect) => {
                   setSelectedTags(
-                    tags.map((t) => ({
+                    tagsInSelect.map((t) => ({
                       label: t.label,
                       id: t.value,
-                    }))
+                    })),
                   );
                 }}
                 options={availableTags.map((i) => ({
@@ -104,3 +104,5 @@ export function NoteForm({
     </Form>
   );
 }
+
+export default NoteForm;

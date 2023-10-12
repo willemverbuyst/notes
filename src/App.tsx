@@ -3,37 +3,13 @@ import { useMemo } from "react";
 import { Container } from "react-bootstrap";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { v4 as uuidV4 } from "uuid";
-import { Note } from "./components/Note";
-import { NoteLayout } from "./components/NoteLayout";
-import { useLocalStorage } from "./hooks/useLocalStorageHook";
-import { EditNote } from "./pages/EditNote";
-import { NewNote } from "./pages/NewNote";
-import { NoteList } from "./pages/NoteList";
-
-export type Tag = {
-  id: string;
-  label: string;
-};
-
-export type NoteData = {
-  title: string;
-  markdown: string;
-  tags: Tag[];
-};
-
-export type Note = {
-  id: string;
-} & NoteData;
-
-export type RawNoteData = {
-  title: string;
-  markdown: string;
-  tagIds: string[];
-};
-
-export type RawNote = {
-  id: string;
-} & RawNoteData;
+import Note from "./components/Note";
+import NoteLayout from "./components/NoteLayout";
+import useLocalStorage from "./hooks/useLocalStorageHook";
+import EditNote from "./pages/EditNote";
+import NewNote from "./pages/NewNote";
+import NoteList from "./pages/NoteList";
+import { NoteData, RawNote, Tag } from "./types";
 
 function App() {
   const [notes, setNotes] = useLocalStorage<RawNote[]>("NOTES", []);
@@ -46,23 +22,22 @@ function App() {
     }));
   }, [notes, tags]);
 
-  function onCreateNote({ tags, ...data }: NoteData) {
+  function onCreateNote({ tags: tagsInNote, ...data }: NoteData) {
     setNotes((prevNotes) => {
       return [
         ...prevNotes,
-        { ...data, id: uuidV4(), tagIds: tags.map((t) => t.id) },
+        { ...data, id: uuidV4(), tagIds: tagsInNote.map((t) => t.id) },
       ];
     });
   }
 
-  function onUpdateNote(id: string, { tags, ...data }: NoteData) {
+  function onUpdateNote(id: string, { tags: tagsInNote, ...data }: NoteData) {
     setNotes((prevNotes) => {
       return prevNotes.map((note) => {
         if (note.id === id) {
-          return { ...note, ...data, tagIds: tags.map((t) => t.id) };
-        } else {
-          return note;
+          return { ...note, ...data, tagIds: tagsInNote.map((t) => t.id) };
         }
+        return note;
       });
     });
   }
@@ -80,9 +55,8 @@ function App() {
       return prevTags.map((tag) => {
         if (tag.id === id) {
           return { ...tag, label };
-        } else {
-          return tag;
         }
+        return tag;
       });
     });
   }
@@ -100,8 +74,8 @@ function App() {
             <NoteList
               availableTags={tags}
               notes={notesWithTags}
-              onUpdateTag={updateTag}
-              onDeleteTag={deleteTag}
+              onUpdateTag={(id: string, label: string) => updateTag(id, label)}
+              onDeleteTag={(id: string) => deleteTag(id)}
             />
           }
         />
@@ -109,20 +83,25 @@ function App() {
           path="/new"
           element={
             <NewNote
-              onSubmit={onCreateNote}
-              onAddTag={addTag}
+              onSubmit={(data: NoteData) => onCreateNote(data)}
+              onAddTag={(tag: Tag) => addTag(tag)}
               availableTags={tags}
             />
           }
         />
         <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
-          <Route index element={<Note onDelete={onDeleteNote} />} />
+          <Route
+            index
+            element={<Note onDelete={(id: string) => onDeleteNote(id)} />}
+          />
           <Route
             path="edit"
             element={
               <EditNote
-                onSubmit={onUpdateNote}
-                onAddTag={addTag}
+                onSubmit={(id: string, data: NoteData) =>
+                  onUpdateNote(id, data)
+                }
+                onAddTag={(tag: Tag) => addTag(tag)}
                 availableTags={tags}
               />
             }
