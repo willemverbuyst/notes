@@ -2,22 +2,22 @@ import { useMemo, useState } from "react";
 import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
-import { Note, Tag } from "./App";
-import { EditTagsModal } from "./EditTagsModal";
-import { NoteCard } from "./NoteCard";
+import { Note, Tag } from "../App";
+import { EditTagsModal } from "../components/EditTagsModal";
+import { NoteCard } from "../components/NoteCard";
 
 type NoteListProps = {
   availableTags: Tag[];
   notes: Note[];
-  updateTag: (id: string, label: string) => void;
-  deleteTag: (id: string) => void;
+  onUpdateTag: (id: string, label: string) => void;
+  onDeleteTag: (id: string) => void;
 };
 
 export function NoteList({
   availableTags,
   notes,
-  updateTag,
-  deleteTag,
+  onUpdateTag,
+  onDeleteTag,
 }: NoteListProps) {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const [title, setTitle] = useState("");
@@ -104,8 +104,8 @@ export function NoteList({
         show={editTagsModalIsOpen}
         handleClose={() => setEditTagsModalIsOpen(false)}
         availableTags={availableTags}
-        updateTag={updateTag}
-        deleteTag={deleteTag}
+        onUpdateTag={onUpdateTag}
+        onDeleteTag={onDeleteTag}
       />
     </>
   );

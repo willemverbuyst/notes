@@ -1,20 +1,20 @@
 import { Button, Col, Form, Modal, Row, Stack } from "react-bootstrap";
-import { Tag } from "./App";
+import { Tag } from "../App";
 
 type EditTagsModalProps = {
   availableTags: Tag[];
   show: boolean;
   handleClose: () => void;
-  updateTag: (id: string, label: string) => void;
-  deleteTag: (id: string) => void;
+  onUpdateTag: (id: string, label: string) => void;
+  onDeleteTag: (id: string) => void;
 };
 
 export function EditTagsModal({
   availableTags,
   show,
   handleClose,
-  updateTag,
-  deleteTag,
+  onUpdateTag,
+  onDeleteTag,
 }: EditTagsModalProps) {
   return (
     <Modal show={show} onHide={handleClose}>
@@ -30,13 +30,13 @@ export function EditTagsModal({
                   <Form.Control
                     type="text"
                     value={tag.label}
-                    onChange={(e) => updateTag(tag.id, e.target.value)}
+                    onChange={(e) => onUpdateTag(tag.id, e.target.value)}
                   />
                 </Col>
                 <Col xs="auto">
                   <Button
                     variant="outline-danger"
-                    onClick={() => deleteTag(tag.id)}
+                    onClick={() => onDeleteTag(tag.id)}
                   >
                     &times;
                   </Button>

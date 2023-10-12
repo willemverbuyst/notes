@@ -3,12 +3,12 @@ import { useMemo } from "react";
 import { Container } from "react-bootstrap";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { v4 as uuidV4 } from "uuid";
-import { EditNote } from "./EditNote";
-import { NewNote } from "./NewNote";
-import { Note } from "./Note";
-import { NoteLayout } from "./NoteLayout";
-import { NoteList } from "./NoteList";
-import { useLocalStorage } from "./useLocalStorageHook";
+import { Note } from "./components/Note";
+import { NoteLayout } from "./components/NoteLayout";
+import { useLocalStorage } from "./hooks/useLocalStorageHook";
+import { EditNote } from "./pages/EditNote";
+import { NewNote } from "./pages/NewNote";
+import { NoteList } from "./pages/NoteList";
 
 export type Tag = {
   id: string;
@@ -100,8 +100,8 @@ function App() {
             <NoteList
               availableTags={tags}
               notes={notesWithTags}
-              updateTag={updateTag}
-              deleteTag={deleteTag}
+              onUpdateTag={updateTag}
+              onDeleteTag={deleteTag}
             />
           }
         />
