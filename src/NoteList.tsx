@@ -3,6 +3,7 @@ import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
 import { Note, Tag } from "./App";
+import { NoteCard } from "./NoteCard";
 
 type NoteListProps = {
   availableTags: Tag[];
@@ -80,7 +81,7 @@ export function NoteList({ availableTags, notes }: NoteListProps) {
       <Row xs={1} sm={2} lg={3} xl={4} className="g-3">
         {filterdNotes.map((n) => (
           <Col key={n.id}>
-            <NoteCard />
+            <NoteCard id={n.id} title={n.title} tags={n.tags} />
           </Col>
         ))}
       </Row>
